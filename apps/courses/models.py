@@ -44,6 +44,9 @@ class Chapter(models.Model):
         verbose_name = "课程章节"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.title
+
 
 class Video(models.Model):
     """

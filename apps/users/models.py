@@ -40,6 +40,9 @@ class EmailVerifyCode(models.Model):
         verbose_name = "邮箱验证码"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return "{}({})".format(self.email, self.send_type)
+
 
 class Banner(models.Model):
     """轮播图模型"""
