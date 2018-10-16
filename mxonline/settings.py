@@ -46,7 +46,10 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
-
+# 自定义用户认证逻辑
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
