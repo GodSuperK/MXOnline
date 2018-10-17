@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'captcha'# 第三方验证码库
+
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
