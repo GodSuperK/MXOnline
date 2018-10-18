@@ -29,5 +29,7 @@ urlpatterns = [
     path('register/', users_views.RegisterView.as_view(), name="register"),
     path('captcha/', include('captcha.urls')),
     re_path(r'^active/(?P<code>\w+)/$', users_views.ActiveUserView.as_view(), name="active"),
+    path('forgetpwd/', users_views.ForgetPwdView.as_view(), name="forgetpwd"),
+    path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
 
 ]

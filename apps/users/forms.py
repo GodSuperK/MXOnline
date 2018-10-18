@@ -16,4 +16,14 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(required=True, min_length=8)
-    captcha = CaptchaField() # error_message 可以自定义错误消息
+    captcha = CaptchaField()  # error_message 可以自定义错误消息
+
+
+class ForgetPwdForm(forms.Form):
+    email = forms.EmailField(required=True)
+    captcha = CaptchaField()
+
+
+class PwdResetForm(forms.Form):
+    password = forms.CharField(required=True, min_length=8, max_length=16)
+    password2 = forms.CharField(required=True, min_length=8, max_length=16)

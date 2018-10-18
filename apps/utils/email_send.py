@@ -38,7 +38,8 @@ def send_email(email, send_type="register"):
         e_message = "请点击下面的链接激活您的账户 http://127.0.0.1:8000/active/{}/".format(email_record.code)
     elif send_type == "forget":
         # TODO 找回密码链接
-        pass
+        e_subject = "慕学在线网找回密码链接"
+        e_message = "请点击下面的链接来跳转到修改密码页面 http://127.0.0.1:8000/active/{}/".format(email_record.code)
     else:
         pass
 
