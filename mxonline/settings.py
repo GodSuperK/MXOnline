@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'operation',
     'xadmin',
     'crispy_forms',
-    'captcha'# 第三方验证码库
+    'captcha'  # 第三方验证码库
 
 ]
 
@@ -132,3 +132,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# 邮件发送信息配置, 避免信息泄漏，不存放敏感信息在这里
+# EMAIL_HOST = None  # 邮件服务器
+# EMAIL_PORT = None  # 端口
+# EMAIL_HOST_USER = None  # 发送人的邮箱
+# EMAIL_HOST_PASSWORD = None  # 客户端授权码
+# EMAIL_USE_TLS = False
+# EMAIL_FROM = EMAIL_HOST_USER  # 邮件发送者
+EMAIL_HOST = "smtp.163.com"  # 邮件服务器
+EMAIL_PORT = 25  # 端口
+EMAIL_HOST_USER = "iamliuche@163.com"  # 发送人的邮箱
+EMAIL_HOST_PASSWORD = "kdc123"  # 客户端授权码
+EMAIL_USE_TLS = False
+EMAIL_FROM = EMAIL_HOST_USER  # 邮件发送者
