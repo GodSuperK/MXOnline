@@ -31,5 +31,7 @@ urlpatterns = [
     re_path(r'^active/(?P<code>\w+)/$', users_views.ActiveUserView.as_view(), name="active"),
     path('forgetpwd/', users_views.ForgetPwdView.as_view(), name="forgetpwd"),
     path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
+    # 课程机构首页
+    path('org_list/', TemplateView.as_view(template_name="org-list.html"), name="org_list"),
 
 ]
