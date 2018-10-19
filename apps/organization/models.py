@@ -24,9 +24,10 @@ class CourseOrg(models.Model):
     """课程机构信息模型"""
     name = models.CharField(verbose_name="机构名称", max_length=30)
     desc = models.TextField(verbose_name="机构描述")
+    category = models.IntegerField(verbose_name="机构类别", choices=((1, '培训机构'), (2, '高校'), (3, '个人')), default=2)
     hits = models.IntegerField(verbose_name="点击数", default=0)
     nums_of_staring = models.IntegerField(verbose_name="收藏数", default=0)
-    image = models.ImageField(verbose_name="机构封面", upload_to="organization/%Y/%m", max_length=200)
+    image = models.ImageField(verbose_name="Logo", upload_to="organization/%Y/%m", max_length=200, blank=True)
     address = models.CharField(verbose_name="机构地址", max_length=200)
     # 根据城市筛选机构
     city = models.ForeignKey(verbose_name="城市", to=CityDict, on_delete=models.CASCADE)

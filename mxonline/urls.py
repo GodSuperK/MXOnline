@@ -16,9 +16,12 @@ Including another URLconf
 # from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.views.static import serve
 
 import xadmin
 from users import views as users_views
+from organization import views as org_views
+from mxonline.settings import MEDIA_ROOT
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -32,6 +35,6 @@ urlpatterns = [
     path('forgetpwd/', users_views.ForgetPwdView.as_view(), name="forgetpwd"),
     path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
     # 课程机构首页
-    path('org_list/', TemplateView.as_view(template_name="org-list.html"), name="org_list"),
-
+    path('org_list/', org_views.OrgListView.as_view(), name="org_list"),
+    re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT})
 ]
