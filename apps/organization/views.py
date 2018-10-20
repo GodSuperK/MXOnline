@@ -15,28 +15,29 @@ class OrgListView(generic.View):
 
         # 热门机构根据收藏人数排序，显示3个机构
         hot_orgs = CourseOrg.objects.order_by("-hits")[:3]
-
-        # TODO 筛选查询逻辑有待优化
+        # 显示已有城市
         cities = CityDict.objects.all()
-        all_orgs = None
+
+        # 获取所有查询参数
         ct = request.GET.get('ct', '')
         city_id = request.GET.get('city', '')
-        if ct and city_id:
-            ct = int(ct)
-            city_id = int(city_id)
+        # 获取排序参数
+        sort = request.GET.get('sort', '')
+        # 查询所有机构
+        all_orgs = CourseOrg.objects.all()
+        # 机构筛选 by 机构类别(category)
+        if ct:
+            all_orgs = all_orgs.filter(category=int(ct))
+        # 机构筛选 by 城市(city_id)
+        if city_id:
             # CourseOrg 中的city 外键在数据表中存储为 city_id
-            all_orgs = CourseOrg.objects.filter(category=ct, city_id=city_id)
-        elif ct:
-            ct = int(ct)
-            all_orgs = CourseOrg.objects.filter(category=ct)
-        elif city_id:
-            city_id = int(city_id)
-            all_orgs = CourseOrg.objects.filter(city_id=city_id)
-        else:
-            all_orgs = CourseOrg.objects.all()
+            all_orgs = all_orgs.filter(city_id=int(city_id))
 
         # 机构数量
         nums_org = all_orgs.count()
+        if sort in ['nums_of_students', 'nums_of_courses']:
+            # 排序 by 学习人数(nums_of_students)或课程数(nums_of_courses)
+            all_orgs = all_orgs.order_by("-{}".format(sort))
 
         # 对机构进行分页
         try:
@@ -55,6 +56,7 @@ class OrgListView(generic.View):
             'nums_org': nums_org,
             'city_id': city_id,
             'ct': ct,
+            'sort': sort,
             'hot_orgs': hot_orgs
         })
 

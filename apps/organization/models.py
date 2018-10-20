@@ -27,6 +27,9 @@ class CourseOrg(models.Model):
     category = models.IntegerField(verbose_name="机构类别", choices=((1, '培训机构'), (2, '高校'), (3, '个人')), default=2)
     hits = models.IntegerField(verbose_name="点击数", default=0)
     nums_of_staring = models.IntegerField(verbose_name="收藏数", default=0)
+    nums_of_students = models.IntegerField(verbose_name="学习人数", default=0)
+    nums_of_courses = models.IntegerField(verbose_name="课程数", default=0)
+
     image = models.ImageField(verbose_name="Logo", upload_to="organization/%Y/%m", max_length=200, blank=True)
     address = models.CharField(verbose_name="机构地址", max_length=200)
     # 根据城市筛选机构

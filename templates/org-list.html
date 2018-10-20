@@ -27,13 +27,13 @@
                                 <a href="?city={{ city_id }}"><span class="{% if not ct %}active2{% endif %}">全部</span></a>
 
                                 <a href="?ct=1&city={{ city_id }}"><span
-                                        class="{% ifequal ct 1 %}active2{% endifequal %}">培训机构</span></a>
+                                        class="{% ifequal ct '1' %}active2{% endifequal %}">培训机构</span></a>
 
                                 <a href="?ct=2&city={{ city_id }}"><span
-                                        class="{% ifequal ct 2 %}active2{% endifequal %}">高校</span></a>
+                                        class="{% ifequal ct '2' %}active2{% endifequal %}">高校</span></a>
 
                                 <a href="?ct=3&city={{ city_id }}"><span
-                                        class="{% ifequal ct 3 %}active2{% endifequal %}">个人</span></a>
+                                        class="{% ifequal ct '3' %}active2{% endifequal %}">个人</span></a>
 
                             </div>
                         </li>
@@ -45,7 +45,7 @@
                                         class="{% if not city_id %}active2{% endif %}">全部</span></a>
                                 {% for i in cities %}
                                     <a href="?city={{ i.id }}&ct={{ ct }}">
-                                        <span class="{% ifequal city_id i.id %}active2{% endifequal %}">{{ i.name }}</span>
+                                        <span class="{% ifequal city_id i.id|stringformat:'i' %}active2{% endifequal %}">{{ i.name }}</span>
                                     </a>
                                 {% endfor %}
                             </div>
@@ -57,9 +57,13 @@
                     <div class="layout">
                         <div class="head">
                             <ul class="tab_header">
-                                <li class="active"><a href="?ct=&city=">全部</a></li>
-                                <li class=""><a href="?sort=students&ct=&city=">学习人数 &#8595;</a></li>
-                                <li class=""><a href="?sort=courses&ct=&city=">课程数 &#8595;</a></li>
+                                <li class="{% if not sort %}active{% endif %}"><a
+                                        href="?ct={{ ct }}&city={{ city_id }}">全部</a></li>
+                                <li class="{% ifequal sort 'nums_of_students' %}active{% endifequal %}"><a
+                                        href="?ct={{ ct }}&city={{ city_id }}&sort=nums_of_students">学习人数 &#8595;</a>
+                                </li>
+                                <li class="{% ifequal sort 'nums_of_courses' %}active{% endifequal %}"><a
+                                        href="?ct={{ ct }}&city={{ city_id }}&sort=nums_of_courses">课程数 &#8595;</a></li>
                             </ul>
                         </div>
                         {% for i in orgs.object_list %}
@@ -84,8 +88,8 @@
                                         </a>
                                     </div>
                                     <ul class="cont">
-                                        <li class="first"><p class="pic9">课程数：<span>1</span></p>
-                                            <p class="c7">学习人数：<span>1000</span></p></li>
+                                        <li class="first"><p class="pic9">课程数：<span>{{ i.nums_of_courses }}</span></p>
+                                            <p class="c7">学习人数：<span>{{ i.nums_of_students }}</span></p></li>
                                         <li class="c8" style="padding-left:18px;">{{ i.address }}</li>
                                         <li class="pic10" style="padding-left:18px;">经典课程：
 
