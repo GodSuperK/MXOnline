@@ -35,6 +35,6 @@ urlpatterns = [
     path('forgetpwd/', users_views.ForgetPwdView.as_view(), name="forgetpwd"),
     path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
     # 课程机构首页
-    path('org_list/', org_views.OrgListView.as_view(), name="org_list"),
+    path('org/', include('organization.urls')),
     re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT})
 ]

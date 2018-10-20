@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from django.shortcuts import render_to_response
 from django.views import generic
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+from pure_pagination import Paginator, PageNotAnInteger
 
 from .models import CourseOrg
 from .models import CityDict
+from .forms import UserAskModelForm
+
+import json
 
 
 # Create your views here.
@@ -62,3 +65,25 @@ class OrgListView(generic.View):
 
     def post(self, request):
         pass
+
+
+class UserAskView(generic.View):
+    """用户咨询View
+    该功能客户端使用ajax发送异步请求，
+    当用户点击提交按钮后，页面不能刷新, 我们需要返回json格式的数据
+    """
+
+    def post(self, request):
+        # 定义返回的json数据
+        result = dict()
+        user_ask_form = UserAskModelForm(request.POST)
+        if user_ask_form.is_valid():
+            # 使用表单的快捷方式save 来对模型进行快速实例化，并保存到数据库中
+            user_ask_form.save(commit=True)
+            result["status"] = "success"
+            # 告诉浏览器，我们返回的是json数据, 让浏览器交给 ajax 去解析
+            return HttpResponse(json.dumps(result), content_type="application/json")
+        else:
+            result["status"] = "failed"
+            result["error"] = "添加出错"
+            return HttpResponse(json.dumps(result), content_type="application/json")

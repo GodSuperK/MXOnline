@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% block title %}课程机构列表 - 慕学在线网{% endblock %}
 {% block custom_css %}{% endblock %}
-{% block custom_js %}{% endblock %}
 {% block custom_bread %}
     <section>
         <div class="wp">
@@ -133,20 +132,22 @@
             <div class="right companyright">
                 <div class="head">我要学习</div>
                 <form class="rightform" id="jsStayForm">
+                    {% csrf_token %}
                     <div>
                         <img src="{% static 'images/rightform1.png' %}"/>
                         <input type="text" name="name" id="companyName" placeholder="名字" maxlength="25"/>
                     </div>
                     <div>
                         <img src="{% static 'images/rightform2.png' %}"/>
-                        <input type="text" name="mobile" id="companyMobile" placeholder="联系电话"/>
+                        <input type="text" name="phone" id="companyMobile" placeholder="联系电话"/>
                     </div>
                     <div>
                         <img src="{% static 'images/rightform3.png' %}"/>
                         <input type="text" name="course_name" id="companyAddress" placeholder="课程名" maxlength="50"/>
                     </div>
                     <p class="error company-tips" id="jsCompanyTips"></p>
-                    <input class="btn" type="text" id="jsStayBtn" value="立即咨询 >"/>
+                    <input class="btn" type="text" id="jsStayBtn" value="立即咨询">/>
+
                 </form>
             </div>
 
@@ -166,4 +167,33 @@
             </div>
         </div>
     </section>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                $('#jsStayBtn').on('click', function () {
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "{% url 'organization:add_ask' %}",
+                        data: $('#jsStayForm').serialize(),
+                        async: true,
+                        success: function (data) {
+                            if (data.status === "success") {
+                                console.log(data);
+                                $('#jsStayForm')[0].reset();
+                                alert("提交成功")
+                            } else if (data.status === "failed") {
+                                $('#jsCompanyTips').html(data.error)
+                            }
+                        },
+                    });
+                });
+            });
+        })
+
+    </script>
 {% endblock %}
