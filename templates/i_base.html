@@ -13,88 +13,94 @@
 </head>
 <body>
 <section class="headerwrap ">
-    <header>
-        <div class=" header">
-            <div class="top">
-                <div class="wp">
-                    <div class="fl"><p>服务电话：<b>33333333</b></p></div>
+    {% block header %}
+        <header>
+            <div class=" header">
+                {% block header_top %}
+                    <div class="top">
+                        <div class="wp">
+                            <div class="fl"><p>服务电话：<b>33333333</b></p></div>
 
-                    <!-- 用户未登陆，显示登陆注册按钮 -->
-                    {% if not request.user.is_authenticated %}
-                        <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
-                        <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
-                    {% else %}
-                        <!-- 用户登陆，显示用户名 -->
-                        <div class="personal">
-                            <dl class="user fr">
-                                <dd>bobby<img class="down fr" src="{% static 'images/top_down.png' %}"/></dd>
-                                <dt><img width="20" height="20"
-                                         src="{% static 'media/image/2016/12/default_big_14.png' %}"/>
-                                </dt>
-                            </dl>
-                            <div class="userdetail">
-                                <dl>
-                                    <dt><img width="80" height="80"
-                                             src="{% static 'media/image/2016/12/default_big_14.png' %}"/></dt>
-                                    <dd>
-                                        <h2>django</h2>
-                                        <p>bobby</p>
-                                    </dd>
-                                </dl>
-                                <div class="btn">
-                                    <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
-                                    <a class="fr" href="/logout/">退出</a>
+                            <!-- 用户未登陆，显示登陆注册按钮 -->
+                            {% if not request.user.is_authenticated %}
+                                <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
+                                <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
+                            {% else %}
+                                <!-- 用户登陆，显示用户名 -->
+                                <div class="personal">
+                                    <dl class="user fr">
+                                        <dd>bobby<img class="down fr" src="{% static 'images/top_down.png' %}"/></dd>
+                                        <dt><img width="20" height="20"
+                                                 src="{% static 'media/image/2016/12/default_big_14.png' %}"/>
+                                        </dt>
+                                    </dl>
+                                    <div class="userdetail">
+                                        <dl>
+                                            <dt><img width="80" height="80"
+                                                     src="{% static 'media/image/2016/12/default_big_14.png' %}"/></dt>
+                                            <dd>
+                                                <h2>django</h2>
+                                                <p>bobby</p>
+                                            </dd>
+                                        </dl>
+                                        <div class="btn">
+                                            <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
+                                            <a class="fr" href="/logout/">退出</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
+
+
                         </div>
-                    {% endif %}
+                    </div>
+                {% endblock %}
 
-
-                </div>
-            </div>
-
-            <div class="middle">
-                <div class="wp">
-                    <a href="{% url 'index' %}"><img class="fl" src="{% static 'images/logo.jpg' %}"/></a>
-                    <div class="searchbox fr">
-                        <div class="selectContainer fl">
+                {% block header_middle %}
+                    <div class="middle">
+                        <div class="wp">
+                            <a href="{% url 'index' %}"><img class="fl" src="{% static 'images/logo.jpg' %}"/></a>
+                            <div class="searchbox fr">
+                                <div class="selectContainer fl">
                             <span class="selectOption" id="jsSelectOption" data-value="course">
                                 公开课
                             </span>
-                            <ul class="selectMenu" id="jsSelectMenu">
-                                <li data-value="course">公开课</li>
-                                <li data-value="org">课程机构</li>
-                                <li data-value="teacher">授课老师</li>
-                            </ul>
+                                    <ul class="selectMenu" id="jsSelectMenu">
+                                        <li data-value="course">公开课</li>
+                                        <li data-value="org">课程机构</li>
+                                        <li data-value="teacher">授课老师</li>
+                                    </ul>
+                                </div>
+                                <input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
+                                <img class="search_btn fr" id="jsSearchBtn" src="{% static 'images/search_btn.png' %}"/>
+                            </div>
                         </div>
-                        <input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
-                        <img class="search_btn fr" id="jsSearchBtn" src="{% static 'images/search_btn.png' %}"/>
                     </div>
-                </div>
+                {% endblock %}
+
+                {% block header_nav %}
+                    <nav>
+                        <div class="nav">
+                            <div class="wp">
+                                <ul>
+                                    <li class="active"><a href="{% url 'index' %}">首页</a></li>
+                                    <li>
+                                        <a href="course-list.html">
+                                            公开课<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="teachers-list.html">授课教师</a>
+                                    </li>
+                                    <li><a href="{% url 'organization:list' %}">授课机构</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                {% endblock %}
             </div>
-
-
-            <nav>
-                <div class="nav">
-                    <div class="wp">
-                        <ul>
-                            <li class="active"><a href="{% url 'index' %}">首页</a></li>
-                            <li>
-                                <a href="course-list.html">
-                                    公开课<img class="hot" src="{% static 'images/nav_hot.png' %}">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="teachers-list.html">授课教师</a>
-                            </li>
-                            <li><a href="{% url 'organization:list' %}">授课机构</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-        </div>
-    </header>
+        </header>
+    {% endblock %}
 </section>
 <!--crumbs start-->
 
@@ -102,26 +108,29 @@
 
 {% block content %}{% endblock %}
 
-<footer>
-    <div class="footer">
-        <div class="wp">
-            <ul class="cont">
-                <li class="logo"><a href=""><img src="{% static 'images/footlogo.png' %}"/></a></li>
-                <li class="code"><img src="{% static 'images/code.jpg' %}"/>
-                    <p class="center">扫描关注微信</p></li>
-                <li class="third"><img class="fl" src="{% static 'images/tell.png' %}"/>
-                    <p class="tell">33333333</p>
-                    <p class="time">周一至周日 9:00-18:00</p></li>
-            </ul>
+{% block footer %}
+    <footer>
+        <div class="footer">
+            <div class="wp">
+                <ul class="cont">
+                    <li class="logo"><a href=""><img src="{% static 'images/footlogo.png' %}"/></a></li>
+                    <li class="code"><img src="{% static 'images/code.jpg' %}"/>
+                        <p class="center">扫描关注微信</p></li>
+                    <li class="third"><img class="fl" src="{% static 'images/tell.png' %}"/>
+                        <p class="tell">33333333</p>
+                        <p class="time">周一至周日 9:00-18:00</p></li>
+                </ul>
 
+            </div>
+            <p class="line"></p>
+            <div class="wp clear">
+                <span class="fl">? 2016 www.projectsedu.com 慕学在线-在线学习交流平台 保留所有权利</span>
+                <span class="fr">copyright ? 2016 ICP备案证书号：蜀ICP备xxxxx号-1</span>
+            </div>
         </div>
-        <p class="line"></p>
-        <div class="wp clear">
-            <span class="fl">? 2016 www.projectsedu.com 慕学在线-在线学习交流平台 保留所有权利</span>
-            <span class="fr">copyright ? 2016 ICP备案证书号：蜀ICP备xxxxx号-1</span>
-        </div>
-    </div>
-</footer>
+    </footer>
+{% endblock %}
+
 
 <section>
     <ul class="sidebar">

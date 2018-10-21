@@ -87,3 +87,56 @@ class UserAskView(generic.View):
             result["status"] = "failed"
             result["error"] = "添加出错"
             return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+class OrgDetailView(generic.View):
+
+    def get(self, request, org_id):
+        # 查询机构
+        org = CourseOrg.objects.filter(id=org_id).first()
+        # 机构首页课程， 使用机构进行反向查询
+        all_courses = org.course_set.all()[:3]
+        # 显示3个教师
+        all_teachers = org.teacher_set.all()[:3]
+        return render(request,
+                      'org-detail-homepage.html', {
+                          'course_org': org,
+                          'all_courses': all_courses,
+                          'all_teachers': all_teachers,
+                          'current_page': 'home'
+                      })
+
+
+class OrgCourseView(generic.View):
+
+    def get(self, request, org_id):
+        org = CourseOrg.objects.filter(id=org_id).first()
+        all_courses = org.course_set.all()
+        return render(request, 'org-detail-course.html', {
+            'course_org': org,
+            'all_courses': all_courses,
+            'current_page': 'course',
+        })
+
+
+class OrgDescView(generic.View):
+
+    def get(self, request, org_id):
+        org = CourseOrg.objects.filter(id=org_id).first()
+
+        return render(request, 'org-detail-desc.html', {
+            'course_org': org,
+            'current_page': 'desc',
+        })
+
+
+class OrgTeacherView(generic.View):
+
+    def get(self, request, org_id):
+        org = CourseOrg.objects.filter(id=org_id).first()
+        all_teachers = org.teacher_set.all()
+        return render(request, 'org-detail-teachers.html', {
+            'course_org': org,
+            'all_teachers': all_teachers,
+            'current_page': 'teacher',
+        })

@@ -1,0 +1,9 @@
+{% extends 'org-base.html' %}
+{% load staticfiles %}
+{% block title %}机构介绍{% endblock %}
+{% block custom_bread %}机构介绍{% endblock %}
+{% block right %}
+    <div class="right companycenter layout">
+        {{ course_org.desc }}
+    </div>
+{% endblock %}

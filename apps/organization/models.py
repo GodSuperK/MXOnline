@@ -51,6 +51,7 @@ class Teacher(models.Model):
     working_experience = models.IntegerField(verbose_name="工作经验", default=0)
     company = models.CharField(verbose_name="公司", max_length=50)
     position = models.CharField(verbose_name="职位", max_length=50)
+    image = models.ImageField(verbose_name="头像", upload_to="teacher/%Y/%m", max_length=200, blank=True, null=True)
     features_of_teaching = models.CharField(verbose_name="教学特点", max_length=50)
     hits = models.IntegerField(verbose_name="点击数", default=0)
     nums_of_staring = models.IntegerField(verbose_name="收藏人数", default=0)
@@ -59,3 +60,6 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = "机构教师信息"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name

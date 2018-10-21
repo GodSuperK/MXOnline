@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from organization.models import CourseOrg
+
 
 # Create your models here.
 
@@ -18,6 +20,7 @@ class Course(models.Model):
                               max_length=12,
                               default='intermediate')
     duration = models.IntegerField(verbose_name="学习时长(分钟数)", default=0)
+    org = models.ForeignKey(verbose_name="所属机构", to=CourseOrg, on_delete=models.CASCADE, null=True, blank=True)
     nums_of_learning = models.IntegerField(verbose_name="学习人数", default=0)
     image = models.ImageField(verbose_name="课程封面", upload_to="courses/image/%Y/%m", max_length=100)
     hits = models.IntegerField(verbose_name="点击数", default=0)
