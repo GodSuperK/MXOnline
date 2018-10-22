@@ -6,7 +6,7 @@ from pure_pagination import Paginator, PageNotAnInteger
 from .models import CourseOrg
 from .models import CityDict
 from .forms import UserAskModelForm
-
+from utils.common import has_star
 import json
 
 
@@ -98,12 +98,15 @@ class OrgDetailView(generic.View):
         all_courses = org.course_set.all()[:3]
         # 显示3个教师
         all_teachers = org.teacher_set.all()[:3]
+
         return render(request,
                       'org-detail-homepage.html', {
                           'course_org': org,
                           'all_courses': all_courses,
                           'all_teachers': all_teachers,
-                          'current_page': 'home'
+                          'current_page': 'home',
+                          # 是否已收藏
+                          'has_star': has_star(request.user, org_id=org.id)
                       })
 
 
@@ -116,6 +119,7 @@ class OrgCourseView(generic.View):
             'course_org': org,
             'all_courses': all_courses,
             'current_page': 'course',
+            'has_star': has_star(request.user, org_id=org.id)
         })
 
 
@@ -127,6 +131,7 @@ class OrgDescView(generic.View):
         return render(request, 'org-detail-desc.html', {
             'course_org': org,
             'current_page': 'desc',
+            'has_star': has_star(request.user, org_id=org.id)
         })
 
 
@@ -139,4 +144,5 @@ class OrgTeacherView(generic.View):
             'course_org': org,
             'all_teachers': all_teachers,
             'current_page': 'teacher',
+            'has_star': has_star(request.user, org_id=org.id)
         })

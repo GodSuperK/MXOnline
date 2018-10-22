@@ -20,7 +20,6 @@ from django.views.static import serve
 
 import xadmin
 from users import views as users_views
-from organization import views as org_views
 from mxonline.settings import MEDIA_ROOT
 
 urlpatterns = [
@@ -36,5 +35,7 @@ urlpatterns = [
     path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
     # 课程机构首页
     path('org/', include('organization.urls')),
-    re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT})
+    path('operate/', include("operation.urls")),
+    re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
+
 ]
