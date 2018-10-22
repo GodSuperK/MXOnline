@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.db import models
-
 from organization.models import CourseOrg
 
 
@@ -19,10 +18,13 @@ class Course(models.Model):
                               choices=(('beginning', '初级'), ('intermediate', '中级'), ('advance', "高级")),
                               max_length=12,
                               default='intermediate')
+    category = models.CharField(verbose_name="课程类别", max_length=20, blank=True, null=True)
+    # TODO 进行外键关联
+    tag = models.CharField(verbose_name="标签", max_length=10, null=True, blank=True)
     duration = models.IntegerField(verbose_name="学习时长(分钟数)", default=0)
     org = models.ForeignKey(verbose_name="所属机构", to=CourseOrg, on_delete=models.CASCADE, null=True, blank=True)
     nums_of_learning = models.IntegerField(verbose_name="学习人数", default=0)
-    image = models.ImageField(verbose_name="课程封面", upload_to="courses/image/%Y/%m", max_length=100)
+    image = models.ImageField(verbose_name="课程封面", upload_to="courses/image/%Y/%m", max_length=100, blank=True)
     hits = models.IntegerField(verbose_name="点击数", default=0)
     nums_of_staring = models.IntegerField(verbose_name="收藏人数", default=0)
     add_time = models.DateTimeField(verbose_name="添加时间", default=datetime.now)
@@ -33,6 +35,13 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_chapter_nums(self):
+        return self.chapter_set.all().count()
+
+    def get_students(self):
+        """return UserCourse QuerySet"""
+        return self.usercourse_set.all()[:5]
 
 
 class Chapter(models.Model):

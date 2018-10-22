@@ -43,6 +43,12 @@ class CourseOrg(models.Model):
     def __str__(self):
         return self.name
 
+    def get_course_nums(self):
+        return self.course_set.all().count()
+
+    def get_teacher_nums(self):
+        return self.teacher_set.all().count()
+
 
 class Teacher(models.Model):
     """机构教师基本信息模型"""
