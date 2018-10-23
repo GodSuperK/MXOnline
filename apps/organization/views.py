@@ -94,6 +94,9 @@ class OrgDetailView(generic.View):
     def get(self, request, org_id):
         # 查询机构
         org = CourseOrg.objects.filter(id=org_id).first()
+        # 点击数加1
+        org.hits += 1
+        org.save()
         # 机构首页课程， 使用机构进行反向查询
         all_courses = org.course_set.all()[:3]
         # 显示3个教师

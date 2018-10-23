@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db import models
 from organization.models import CourseOrg
+from organization.models import Teacher
 
 
 # Create your models here.
@@ -12,8 +13,11 @@ class Course(models.Model):
     """
     title = models.CharField(verbose_name="课程名", max_length=50)
     desc = models.CharField(verbose_name="课程描述", max_length=300)
+    teacher = models.ForeignKey(verbose_name="讲师", to=Teacher, on_delete=models.CASCADE, null=True, blank=True)
     # 课程详情使用富文本编辑
     detail = models.TextField(verbose_name="课程详情")
+    # 课程公告
+    notice = models.CharField(verbose_name="课程公告", max_length=100, blank=True, null=True)
     degree = models.CharField(verbose_name="课程难度",
                               choices=(('beginning', '初级'), ('intermediate', '中级'), ('advance', "高级")),
                               max_length=12,
@@ -27,6 +31,8 @@ class Course(models.Model):
     image = models.ImageField(verbose_name="课程封面", upload_to="courses/image/%Y/%m", max_length=100, blank=True)
     hits = models.IntegerField(verbose_name="点击数", default=0)
     nums_of_staring = models.IntegerField(verbose_name="收藏人数", default=0)
+    need_know = models.CharField(verbose_name="课程须知", max_length=100, null=True, blank=True)
+    learn_what = models.CharField(verbose_name="具体内容", max_length=300, null=True, blank=True)
     add_time = models.DateTimeField(verbose_name="添加时间", default=datetime.now)
 
     class Meta:
@@ -39,9 +45,15 @@ class Course(models.Model):
     def get_chapter_nums(self):
         return self.chapter_set.all().count()
 
+    def get_chapters(self):
+        return self.chapter_set.all()
+
     def get_students(self):
         """return UserCourse QuerySet"""
         return self.usercourse_set.all()[:5]
+
+    def get_resource(self):
+        return self.courseresource_set.all()
 
 
 class Chapter(models.Model):
@@ -57,7 +69,10 @@ class Chapter(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.title
+        return "{}:{}".format(self.course.title, self.title)
+
+    def get_video(self):
+        return self.video_set.all()
 
 
 class Video(models.Model):
@@ -66,6 +81,7 @@ class Video(models.Model):
     """
     chapter = models.ForeignKey(verbose_name="章节", to=Chapter, on_delete=models.CASCADE)
     title = models.CharField(verbose_name="视频名", max_length=100)
+    url = models.CharField(verbose_name="视频地址", max_length=200, null=True, blank=True)
     add_time = models.DateTimeField(verbose_name="添加时间", default=datetime.now)
 
     # url = models.URLField(verbose_name="播放地址", max_length=300)
@@ -73,6 +89,9 @@ class Video(models.Model):
     class Meta:
         verbose_name = "章节视频"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
 
 
 class CourseResource(models.Model):
@@ -87,3 +106,7 @@ class CourseResource(models.Model):
     class Meta:
         verbose_name = "课程资源"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
+

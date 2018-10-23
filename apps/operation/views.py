@@ -4,6 +4,8 @@ from django.http import HttpResponse
 
 import json
 from .models import UserStar
+from .models import CourseComment
+from courses.models import Course
 
 
 # Create your views here.
@@ -43,3 +45,26 @@ class AddFavourite(generic.View):
             result["status"] = "fail"
             result["msg"] = "用户未登陆"
             return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+class AddComment(generic.View):
+
+    def post(self, request):
+        result = dict()
+        if request.user.is_authenticated:
+            course_id = request.POST.get('course_id')
+            comments = request.POST.get('comments')
+            if course_id and comments:
+                course_comment = CourseComment()
+                course_comment.user = request.user
+                course_comment.course_id = course_id
+                course_comment.comment = comments
+                course_comment.save()
+                result["status"] = "success"
+            else:
+                result["status"] = "fail"
+                result["msg"] = "未知错误"
+        else:
+            result["status"] = "fail"
+            result["msg"] = "用户未登陆"
+        return HttpResponse(json.dumps(result), content_type="application/json")

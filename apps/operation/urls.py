@@ -8,4 +8,5 @@ from . import views
 app_name = "operation"
 urlpatterns = [
     path('add_fav/', views.AddFavourite.as_view(), name="add_fav"),
+    path('add_comment/', views.AddComment.as_view(), name="add_comment"),
 ]
