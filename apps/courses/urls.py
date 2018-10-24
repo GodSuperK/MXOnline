@@ -11,4 +11,5 @@ urlpatterns = [
     path(r'detail/<int:course_id>/', views.CourseDetailView.as_view(), name='detail'),
     path(r'detail/<int:course_id>/video/', views.CourseVideoView.as_view(), name='video'),
     path(r'detail/<int:course_id>/comment/', views.CourseCommentView.as_view(), name='comment'),
+    path(r'detail/play_video/<int:course_id>/<int:video_id>/', views.PlayVideoView.as_view(), name='play_video'),
 ]

@@ -45,8 +45,10 @@
                                 <li><span
                                         class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ course.get_chapter_nums }}</span>
                                 </li>
-                                <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span>
-                                </li>
+                                {% if course.category %}
+                                    <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span>
+                                    </li>
+                                {% endif %}
                                 <li class="piclist">
                                     <span class="pram word4">学习用户：</span>
                                     {% for user_course in course.get_students %}

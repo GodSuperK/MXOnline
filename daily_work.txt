@@ -1,0 +1,17 @@
+### 2018/10/24 Wed.
+1. [X] 相关课程推荐
+2. [X] 用户学习课程
+3. [X] 视频播放页面
+4. [X] 修复BUG: 如果课程类别字段为空，页面会显示None
+5. [] 优化课程部分的静态页面的冗余代码
+
+Tips:
+1. 统计列表中各个元素的个数
+a = [1, 2, 3, 1, 1, 2]
+dict = {}
+for key in a:
+    dict[key] = dict.get(key, 0) + 1
+print(dict)
+
+2. 对字典进行排序
+x = sorted(dict.items(), key=lambda item: item[1], reverse=True)
