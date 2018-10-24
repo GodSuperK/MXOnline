@@ -14,4 +14,5 @@ urlpatterns = [
     path('desc/<int:org_id>/', views.OrgDescView.as_view(), name="desc"),
     path('teacher/<int:org_id>/', views.OrgTeacherView.as_view(), name="teacher"),
     path('teacher/list/', views.TeacherListView.as_view(), name="teacher_list"),
+    path('teacher/detail/<int:teacher_id>/', views.TeacherDetailView.as_view(), name="teacher_detail"),
 ]

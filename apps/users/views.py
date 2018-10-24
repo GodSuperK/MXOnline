@@ -190,3 +190,11 @@ class PasswordResetView(generic.View):
                 return render(request, 'password_reset.html', {'email': email, 'error_msg': "两次密码不匹配"})
         else:
             return render(request, 'password_reset.html', {'email': email, 'pwdreset_form': pwdreset_form})
+
+
+class IndexView(generic.View):
+
+    def get(self, request):
+        return render(request, 'index.html', {
+            "current_page": 'index',
+        })

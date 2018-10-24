@@ -70,3 +70,6 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_all_course(self):
+        return self.course_set.all()

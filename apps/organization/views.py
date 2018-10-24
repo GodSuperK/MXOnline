@@ -61,7 +61,8 @@ class OrgListView(generic.View):
             'city_id': city_id,
             'ct': ct,
             'sort': sort,
-            'hot_orgs': hot_orgs
+            'hot_orgs': hot_orgs,
+            'current_page': "org"
         })
 
     def post(self, request):
@@ -110,7 +111,7 @@ class OrgDetailView(generic.View):
                           'all_teachers': all_teachers,
                           'current_page': 'home',
                           # 是否已收藏
-                          'has_star': has_star(request.user, org_id=org.id)
+                          'has_star': has_star(request.user, fav_id=org_id, fav_type=3)
                       })
 
 
@@ -123,7 +124,7 @@ class OrgCourseView(generic.View):
             'course_org': org,
             'all_courses': all_courses,
             'current_page': 'course',
-            'has_star': has_star(request.user, org_id=org.id)
+            'has_star': has_star(request.user, fav_id=org_id, fav_type=3)
         })
 
 
@@ -135,7 +136,7 @@ class OrgDescView(generic.View):
         return render(request, 'org-detail-desc.html', {
             'course_org': org,
             'current_page': 'desc',
-            'has_star': has_star(request.user, org_id=org.id)
+            'has_star': has_star(request.user, fav_id=org_id, fav_type=3)
         })
 
 
@@ -148,7 +149,7 @@ class OrgTeacherView(generic.View):
             'course_org': org,
             'all_teachers': all_teachers,
             'current_page': 'teacher',
-            'has_star': has_star(request.user, org_id=org.id)
+            'has_star': has_star(request.user, fav_id=org_id, fav_type=3)
         })
 
 
@@ -181,5 +182,25 @@ class TeacherListView(generic.View):
             'all_teacher': all_teacher,
             'nums_of_teacher': nums_of_teacher,
             'sort': sort,
-            "hot_teachers": hot_teachers
+            "hot_teachers": hot_teachers,
+            'current_page': "teacher"
+        })
+
+
+class TeacherDetailView(generic.View):
+
+    def get(self, request, teacher_id):
+        teacher = Teacher.objects.filter(id=teacher_id).first()
+
+        # 查询是否已收藏
+        has_teacher_star = has_star(request.user, fav_id=teacher_id, fav_type=2)
+        has_org_star = has_star(request.user, fav_id=teacher.organization_id, fav_type=3)
+
+        # 讲师排行榜，根据点击数进行排序
+        hot_teachers = Teacher.objects.all().order_by('-hits')[:3]
+        return render(request, 'teacher-detail.html', {
+            "teacher": teacher,
+            'hot_teachers': hot_teachers,
+            'has_teacher_star': has_teacher_star,
+            'has_org_star': has_org_star,
         })

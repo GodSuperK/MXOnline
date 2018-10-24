@@ -26,7 +26,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     # 配置首页, name 参数在模板中的使用 {% url 'name' %}
-    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    path('', users_views.IndexView.as_view() , name="index"),
     path('login/', users_views.LoginView.as_view(), name="login"),
     path('register/', users_views.RegisterView.as_view(), name="register"),
     path('captcha/', include('captcha.urls')),
@@ -38,5 +38,6 @@ urlpatterns = [
     path('operate/', include("operation.urls")),
     re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
 
+    # 课程首页
     path('course/', include('courses.urls')),
 ]

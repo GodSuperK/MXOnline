@@ -11,7 +11,6 @@
     </section>
 {% endblock %}
 
-
 {% block content %}
     <section>
         <div class="wp butler_list_box list">
@@ -30,7 +29,7 @@
                     {% for teacher in all_teacher.object_list %}
                         <dl class="des">
                             <dt>
-                                <a href="/org/teacher/detail/1/">
+                                <a href="{% url 'organization:teacher_detail' teacher.id %}">
                                     <div class="picpic">
                                         <img width="100" height="100" class="scrollLoading"
                                              src="{{ MEDIA_URL }}{{ teacher.image }}"/>
@@ -40,15 +39,14 @@
                                     <div class="fr btn2 bdsharebuttonbox"
                                          data-text="授课教师-{{ teacher.name }}-慕学在线"
                                          data-desc="我在#慕课网#发现了教师“{{ teacher.name }}”，对学习中的小伙伴很有帮助，一起来看看吧。"
-                                         data-comment="{{ teacher.name }}金牌讲师，从业年限：{{ teacher.working_experience }}年"
-                                    >
+                                         data-comment="{{ teacher.name }}金牌讲师，从业年限：{{ teacher.working_experience }}年">
                                         <span class="fl">分享</span>
                                         <a href="#" class="bds_more" data-cmd="more"></a>
                                     </div>
                                 </div>
                             </dt>
                             <dd>
-                                <a href="/org/teacher/detail/1/">
+                                <a href="{% url 'organization:teacher_detail' teacher.id %}">
                                     <h1>{{ teacher.name }}<span class="key picbig">金牌讲师</span></h1>
                                 </a>
                                 <ul class="cont">
@@ -59,7 +57,8 @@
                                     <li>教学特点：<span>{{ teacher.features_of_teaching }}</span></li>
                                 </ul>
                             </dd>
-                            <a class="buy buyservice" href="/org/teacher/detail/1/"><br/>查看<br/>详情</a>
+                            <a class="buy buyservice"
+                               href="{% url 'organization:teacher_detail' teacher.id %}"><br/>查看<br/>详情</a>
                         </dl>
                     {% endfor %}
 
@@ -94,14 +93,14 @@
                 {% for teacher in hot_teachers %}
                     <dl class="des">
                         <span class="num fl">1</span>
-                        <a href="/diary/hk_detail/6/">
+                        <a href="">
                             <dt>
                                 <img width="50" height="50" class="scrollLoading"
                                      src="{{ MEDIA_URL }}{{ teacher.image }}"/>
                             </dt>
                         </a>
                         <dd>
-                            <a href="/diary/hk_detail/6/">
+                            <a href="">
                                 <h1 title="{{ teacher.name }}">{{ teacher.name }}</h1>
                             </a>
                             <p>工作年限：<span>{{ teacher.working_experience }}年</span></p>
