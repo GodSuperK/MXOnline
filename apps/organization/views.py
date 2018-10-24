@@ -5,6 +5,7 @@ from pure_pagination import Paginator, PageNotAnInteger
 
 from .models import CourseOrg
 from .models import CityDict
+from .models import Teacher
 from .forms import UserAskModelForm
 from utils.common import has_star
 import json
@@ -148,4 +149,37 @@ class OrgTeacherView(generic.View):
             'all_teachers': all_teachers,
             'current_page': 'teacher',
             'has_star': has_star(request.user, org_id=org.id)
+        })
+
+
+class TeacherListView(generic.View):
+
+    def get(self, request):
+        # 默认根据收藏数进行排序
+        teachers = Teacher.objects.order_by("-nums_of_staring").all()
+        sort = request.GET.get('sort', '')
+        # 根据点击数进行排序
+        if sort in ['hot', ]:
+            teachers = teachers.order_by('-hits').all()
+
+        # 讲师数量
+        nums_of_teacher = teachers.count()
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        # per_page 表示每页显示的记录条数
+        p = Paginator(teachers, request=request, per_page=3)
+
+        all_teacher = p.page(page)
+
+        # 讲师排行榜，根据点击数进行排序
+        hot_teachers = teachers.order_by('-hits').all()[:3]
+
+        return render(request, 'teachers-list.html', {
+            'all_teacher': all_teacher,
+            'nums_of_teacher': nums_of_teacher,
+            'sort': sort,
+            "hot_teachers": hot_teachers
         })

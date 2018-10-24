@@ -13,4 +13,5 @@ urlpatterns = [
     path('course/<int:org_id>/', views.OrgCourseView.as_view(), name="course"),
     path('desc/<int:org_id>/', views.OrgDescView.as_view(), name="desc"),
     path('teacher/<int:org_id>/', views.OrgTeacherView.as_view(), name="teacher"),
+    path('teacher/list/', views.TeacherListView.as_view(), name="teacher_list"),
 ]

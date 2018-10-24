@@ -54,6 +54,7 @@ class Teacher(models.Model):
     """机构教师基本信息模型"""
     organization = models.ForeignKey(verbose_name="所属机构", to=CourseOrg, on_delete=models.CASCADE)
     name = models.CharField(verbose_name="教师姓名", max_length=20)
+    age = models.IntegerField(verbose_name="年龄", default=0)
     working_experience = models.IntegerField(verbose_name="工作经验", default=0)
     company = models.CharField(verbose_name="公司", max_length=50)
     position = models.CharField(verbose_name="职位", max_length=50)
