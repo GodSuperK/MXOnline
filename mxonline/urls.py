@@ -23,21 +23,23 @@ from users import views as users_views
 from mxonline.settings import MEDIA_ROOT
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('xadmin/', xadmin.site.urls),
-    # 配置首页, name 参数在模板中的使用 {% url 'name' %}
-    path('', users_views.IndexView.as_view() , name="index"),
-    path('login/', users_views.LoginView.as_view(), name="login"),
-    path('register/', users_views.RegisterView.as_view(), name="register"),
-    path('captcha/', include('captcha.urls')),
-    re_path(r'^active/(?P<code>\w+)/$', users_views.ActiveUserView.as_view(), name="active"),
-    path('forgetpwd/', users_views.ForgetPwdView.as_view(), name="forgetpwd"),
-    path('pwd_reset/', users_views.PasswordResetView.as_view(), name="pwdreset"),
-    # 课程机构首页
+    # 配置首页
+    path('', users_views.IndexView.as_view(), name="index"),
+    # 用户相关配置
+    path('user/', include("users.urls")),
+    # 机构配置
     path('org/', include('organization.urls')),
-    path('operate/', include("operation.urls")),
-    re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
-
-    # 课程首页
+    # 课程配置
     path('course/', include('courses.urls')),
+    # 用户操作配置
+    path('operate/', include("operation.urls")),
+
+    # xAdmin 后台管理系统配置
+    path('xadmin/', xadmin.site.urls),
+    # 上传文件处理函数
+    # path('media/<str:path>/', serve, {'document_root': MEDIA_ROOT}),
+    re_path(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
+    # 验证码插件配置
+    path('captcha/', include('captcha.urls')),
+    # path('admin/', admin.site.urls), # Admin 后台管理系统配置
 ]

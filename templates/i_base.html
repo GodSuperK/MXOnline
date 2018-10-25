@@ -23,8 +23,8 @@
 
                             <!-- 用户未登陆，显示登陆注册按钮 -->
                             {% if not request.user.is_authenticated %}
-                                <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
-                                <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
+                                <a style="color:white" class="fr registerbtn" href="{% url 'user:register' %}">注册</a>
+                                <a style="color:white" class="fr loginbtn" href="{% url 'user:login' %}">登录</a>
                             {% else %}
                                 <!-- 用户登陆，显示用户名 -->
                                 <div class="personal">

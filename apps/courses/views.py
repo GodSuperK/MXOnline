@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import View
-from django.db.models import Count
-from utils.common import has_star
+
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from .models import Course
 from .models import Video
 from operation.models import CourseComment
 from operation.models import UserCourse
 from utils.mixin_utils import LoginRequiredMixin
+from utils.common import has_star
 
 
 # Create your views here.

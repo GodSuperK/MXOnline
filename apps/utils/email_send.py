@@ -2,7 +2,7 @@ __author__ = "GodSuperK"
 __date__ = "18-10-18 上午9:04"
 
 from django.core import mail
-
+from django.urls import reverse
 from users.models import EmailVerifyCode
 from utils.basic_settings import EMAIL_FROM
 import random
@@ -32,14 +32,14 @@ def send_email(email, send_type="register"):
     # 2. 定义邮件 e 的主题和消息
     e_subject = ""
     e_message = ""
-
+    url = reverse('user:active', args=(email_record.code,))
     if send_type == "register":
         e_subject = "慕学在线网注册激活链接"
-        e_message = "请点击下面的链接激活您的账户 http://127.0.0.1:8000/active/{}/".format(email_record.code)
+        e_message = "请点击下面的链接激活您的账户 127.0.0.1:8000{}".format(url)
     elif send_type == "forget":
         # TODO 找回密码链接
         e_subject = "慕学在线网找回密码链接"
-        e_message = "请点击下面的链接来跳转到修改密码页面 http://127.0.0.1:8000/active/{}/".format(email_record.code)
+        e_message = "请点击下面的链接来跳转到修改密码页面 127.0.0.1:8000{}/".format(url)
     else:
         pass
 
