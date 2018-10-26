@@ -18,6 +18,8 @@ x = sorted(dict.items(), key=lambda item: item[1], reverse=True)
 
 
 ### 2018/10/25 四
+1. [X] 优化URLConf
+
+### 2018/10/26 五
 1. [] 优化课程部分的静态页面的冗余代码
 2. [] 优化机构部分的静态页面的冗余代码
-3. [] 优化URLConf
