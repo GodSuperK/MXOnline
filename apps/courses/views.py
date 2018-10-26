@@ -36,7 +36,7 @@ class CourseListView(View):
             'all_courses': all_courses,
             'sort': sort,
             'hot_courses': hot_courses,
-            'current_page': "course"
+
         })
 
 

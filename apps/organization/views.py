@@ -62,7 +62,6 @@ class OrgListView(generic.View):
             'ct': ct,
             'sort': sort,
             'hot_orgs': hot_orgs,
-            'current_page': "org"
         })
 
     def post(self, request):
@@ -183,7 +182,7 @@ class TeacherListView(generic.View):
             'nums_of_teacher': nums_of_teacher,
             'sort': sort,
             "hot_teachers": hot_teachers,
-            'current_page': "teacher"
+
         })
 
 

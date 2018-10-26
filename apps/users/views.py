@@ -195,6 +195,4 @@ class PasswordResetView(generic.View):
 class IndexView(generic.View):
 
     def get(self, request):
-        return render(request, 'index.html', {
-            "current_page": 'index',
-        })
+        return render(request, 'index.html')
