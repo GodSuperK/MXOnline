@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
-
+from django.db.models import Q
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from .models import Course
 from .models import Video
@@ -15,8 +15,19 @@ from utils.common import has_star
 class CourseListView(View):
 
     def get(self, request):
+
         # 默认按最新排序
         all_courses = Course.objects.all().order_by('-add_time')
+
+        # 关键词搜索
+        keywords = request.GET.get('keywords', '')
+        if keywords:
+            # 搜索title, desc, detail 将包含关键词的课程全部显示出来
+            all_courses = all_courses.filter(
+                Q(title__icontains=keywords) |
+                Q(desc__icontains=keywords) |
+                Q(detail__icontains=keywords))
+
         # 按最热门（点击数）,学习人数排序
         sort = request.GET.get('sort', '')
         if sort in ['hits', 'nums_of_learning']:

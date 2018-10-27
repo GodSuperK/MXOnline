@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse
+from django.db.models import Q
 from pure_pagination import Paginator, PageNotAnInteger
 
 from .models import CourseOrg
@@ -29,6 +30,15 @@ class OrgListView(generic.View):
         sort = request.GET.get('sort', '')
         # 查询所有机构
         all_orgs = CourseOrg.objects.all()
+
+        # 关键词搜索
+        keywords = request.GET.get('keywords', '')
+        if keywords:
+            # 搜索name, desc, 将包含关键词的机构全部显示出来
+            all_orgs = all_orgs.filter(
+                Q(name__icontains=keywords) |
+                Q(desc__icontains=keywords))
+
         # 机构筛选 by 机构类别(category)
         if ct:
             all_orgs = all_orgs.filter(category=int(ct))
@@ -157,6 +167,15 @@ class TeacherListView(generic.View):
     def get(self, request):
         # 默认根据收藏数进行排序
         teachers = Teacher.objects.order_by("-nums_of_staring").all()
+
+        # 关键词搜索
+        keywords = request.GET.get('keywords', '')
+        if keywords:
+            # 搜索教师姓名, 机构名字 将包含关键词的老师全部显示出来
+            teachers = teachers.filter(
+                Q(name__icontains=keywords) |
+                Q(organization__name__icontains=keywords))
+
         sort = request.GET.get('sort', '')
         # 根据点击数进行排序
         if sort in ['hot', ]:
