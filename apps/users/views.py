@@ -1,4 +1,6 @@
-from django.shortcuts import render
+import json
+
+from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib.auth.backends import ModelBackend
@@ -13,7 +15,9 @@ from .forms import ForgetPwdForm
 from .forms import PwdResetForm
 from .models import UserProfile
 from .models import EmailVerifyCode
+from .forms import ImageUploadForm
 from utils import email_send
+from utils.mixin_utils import LoginRequiredMixin
 
 
 # Create your views here.
@@ -196,3 +200,53 @@ class IndexView(generic.View):
 
     def get(self, request):
         return render(request, 'index.html')
+
+
+class UserProfileView(LoginRequiredMixin, generic.View):
+
+    def get(self, request):
+        return render(request, 'usercenter-info.html')
+
+
+class UserImageUploadView(LoginRequiredMixin, generic.View):
+    """
+    用户修改头像
+    异步修改
+    1. 编写form
+    """
+
+    def post(self, request):
+        image_form = ImageUploadForm(request.POST, request.FILES, instance=request.user)
+        if image_form.is_valid():
+            image_form.save()
+            return HttpResponse('{"status":"success"}', content_type="application/json")
+        else:
+            return HttpResponse('{"status":"fail"}', content_type="application/json")
+
+
+class PasswordModifiedView(generic.View):
+
+    def post(self, request):
+        result = {}
+        pwdreset_form = PwdResetForm(request.POST)
+        if pwdreset_form.is_valid():
+            # 1. 提取数据字段密码以及 邮箱（作为数据库查询依据）
+            password = request.POST.get("password", "1")
+            password2 = request.POST.get("password2", "2")
+            # 2. 比较密码，如果密码相等，保存密文到数据库
+            if password == password2:
+                user = request.user
+                if user:
+                    user.password = hashers.make_password(password=password)
+                    user.save()
+                    result["status"] = "success"
+                else:
+                    result["status"] = "failure"
+            else:
+                result["status"] = "failure"
+                result["msg"] = "两次密码不匹配"
+        else:
+            result["status"] = "failure"
+            result["msg"] = "请重新设置密码"
+
+        return HttpResponse(json.dumps(result), content_type="application/json")

@@ -2,6 +2,7 @@ __author__ = "GodSuperK"
 __date__ = "18-10-17 上午9:37"
 
 from django import forms
+from .models import UserProfile
 from captcha.fields import CaptchaField
 
 
@@ -27,3 +28,9 @@ class ForgetPwdForm(forms.Form):
 class PwdResetForm(forms.Form):
     password = forms.CharField(required=True, min_length=8, max_length=16)
     password2 = forms.CharField(required=True, min_length=8, max_length=16)
+
+
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image', ]

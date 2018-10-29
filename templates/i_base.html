@@ -45,11 +45,14 @@
                                             </dd>
                                         </dl>
                                         <div class="btn">
-                                            <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
+                                            <a class="personcenter fl" href="{% url 'user:profile' %}">进入个人中心</a>
                                             <a class="fr" href="/logout/">退出</a>
                                         </div>
                                     </div>
                                 </div>
+                                <a href="{% url 'user:message' %}">
+                                    <div class="msg-num"><span id="MsgNum">0</span></div>
+                                </a>
                             {% endif %}
 
 

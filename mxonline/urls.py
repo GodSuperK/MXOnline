@@ -42,4 +42,6 @@ urlpatterns = [
     # 验证码插件配置
     path('captcha/', include('captcha.urls')),
     # path('admin/', admin.site.urls), # Admin 后台管理系统配置
+
+    path('login/', users_views.LoginView.as_view(), name="login"),
 ]

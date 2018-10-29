@@ -12,11 +12,11 @@ jQuery.fn.extend({
             }, opts || {});
             _self.getObjectURL = function (file) {
                 var url = null;
-                if (window.createObjectURL != undefined) {
+                if (window.createObjectURL !== undefined) {
                     url = window.createObjectURL(file)
-                } else if (window.URL != undefined) {
+                } else if (window.URL !== undefined) {
                     url = window.URL.createObjectURL(file)
-                } else if (window.webkitURL != undefined) {
+                } else if (window.webkitURL !== undefined) {
                     url = window.webkitURL.createObjectURL(file)
                 }
                 return url
@@ -37,7 +37,7 @@ jQuery.fn.extend({
                         } catch (e) {
                             var src = "";
                             _self.select();
-                            if (top != self) {
+                            if (top !== self) {
                                 window.parent.document.body.focus()
                             } else {
                                 _self.blur()
